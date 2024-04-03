@@ -12,8 +12,15 @@ class CreateExpenseBloc extends Bloc<CreateExpenseEvent, CreateExpenseState> {
     on<CreateExpense>((event, emit) async {
       emit(CreateExpenseLoading());
       try {
+        // Cập nhật totalExpenses cho Category tương ứng
+        await expenseRepository.updateCategoryTotalExpenses(
+          event.expense.category,
+          event.expense.amount,
+        );
+
         await expenseRepository.createExpense(event.expense);
         emit(CreateExpenseSuccess());
+
       } catch (e) {
         emit(CreateExpenseFailure());
       }

@@ -81,4 +81,15 @@ class FirebaseExpenseRepo implements ExpenseRepository {
     }
   }
 
+  @override
+  Future<void> updateCategoryTotalExpenses(Category category, int amount) async {
+    final categoryDoc = await categoryCollection.doc(category.categoryId).get();
+    final categoryData = categoryDoc.data();
+
+    if (categoryData != null) {
+      final updatedTotalExpenses = categoryData['totalExpenses'] + amount;
+      await categoryCollection.doc(category.categoryId).update({'totalExpenses': updatedTotalExpenses});
+    }
+  }
+
 }

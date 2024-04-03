@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   showSelectedLabels: false,
                   showUnselectedLabels: false,
                   elevation: 3,
-                  items: [BottomNavigationBarItem(icon: Icon(CupertinoIcons.home, color: index == 0 ? selectedItem : unselectedItem), label: 'Home'), BottomNavigationBarItem(icon: Icon(CupertinoIcons.graph_square_fill, color: index == 1 ? selectedItem : unselectedItem), label: 'Stats')]),
+                  items: [BottomNavigationBarItem(icon: Icon(CupertinoIcons.home, color: index == 0 ? selectedItem : unselectedItem), label: 'Home'), BottomNavigationBarItem(icon: Icon(CupertinoIcons.graph_square_fill, color: index == 1 ? selectedItem : unselectedItem), label: 'Stats'), BottomNavigationBarItem(icon: Icon(CupertinoIcons.calendar_badge_plus, color: index == null ? selectedItem : unselectedItem), label: 'Plan'), BottomNavigationBarItem(icon: Icon(CupertinoIcons.person, color: index == null ? selectedItem : unselectedItem), label: 'Account')]),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: FloatingActionButton(
