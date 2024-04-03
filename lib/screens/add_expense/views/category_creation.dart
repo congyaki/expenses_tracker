@@ -25,6 +25,15 @@ Future getCategoryCreation(BuildContext context) {
         value: context.read<CreateCategoryBloc>(),
         child: StatefulBuilder(
           builder: (ctx, setState) {
+            void showSnackBar(String message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(message),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }
+
           return BlocListener<CreateCategoryBloc, CreateCategoryState>(
             listener: (context, state) {
               if(state is CreateCategorySuccess) {
@@ -163,27 +172,48 @@ Future getCategoryCreation(BuildContext context) {
                       width: double.infinity,
                       height: kToolbarHeight,
                       child: isLoading == true
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : TextButton(
+                          ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                          : TextButton(
                             onPressed: () {
-                              // Create Category Object and POP
+                              // Kiểm tra các trường bắt buộc
+                              if (categoryNameController.text.isEmpty) {
+                                showSnackBar('Vui lòng nhập tên danh mục');
+                                return;
+                              }
+
+                              if (iconSelected.isEmpty) {
+                                showSnackBar('Vui lòng chọn biểu tượng');
+                                return;
+                              }
+
+                              if (categoryColor == Colors.white) {
+                                showSnackBar('Vui lòng chọn màu sắc');
+                                return;
+                              }
+
+                              // Tạo đối tượng Category và lưu
                               setState(() {
                                 category.categoryId = const Uuid().v1();
                                 category.name = categoryNameController.text;
                                 category.icon = iconSelected;
                                 category.color = categoryColor.value;
                               });
-                              
+
                               context.read<CreateCategoryBloc>().add(CreateCategory(category));
                             },
-                            style: TextButton.styleFrom(backgroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                             child: const Text(
                               'Save',
                               style: TextStyle(fontSize: 22, color: Colors.white),
-                            )
-                          ),
+                            ),
+                      ),
                     )
                   ],
                 ),
@@ -196,3 +226,4 @@ Future getCategoryCreation(BuildContext context) {
   }
 );
 }
+
