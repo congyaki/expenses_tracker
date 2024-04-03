@@ -34,6 +34,28 @@ class FirebaseExpenseRepo implements ExpenseRepository {
   }
 
   @override
+  Future<void> updateCategory(Category category) async {
+    try {
+      await categoryCollection
+          .doc(category.categoryId)
+          .update(category.toEntity().toDocument());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteCategory(String categoryId) async {
+    try {
+      await categoryCollection.doc(categoryId).delete();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> createExpense(Expense expense) async {
     try {
       await expenseCollection
