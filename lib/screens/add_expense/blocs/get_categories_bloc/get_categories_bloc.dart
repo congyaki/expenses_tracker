@@ -13,7 +13,9 @@ class GetCategoriesBloc extends Bloc<GetCategoriesEvent, GetCategoriesState> {
       emit(GetCategoriesLoading());
       try {
         List<Category> categories = await expenseRepository.getCategory();
-        emit(GetCategoriesSuccess(categories));
+        // Tạo bản sao của danh sách categories
+        List<Category> categoriesCopy = List.from(categories);
+        emit(GetCategoriesSuccess(categoriesCopy));
       } catch (e) {
         emit(GetCategoriesFailure());
       }
